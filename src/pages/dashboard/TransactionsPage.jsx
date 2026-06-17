@@ -7,6 +7,7 @@ import { formatCurrency, formatDateTime } from '../../utils/format';
 import StatusBadge from '../../components/common/StatusBadge';
 import EmptyState from '../../components/common/EmptyState';
 import Pagination from '../../components/common/Pagination';
+import { api } from '../../services/api';
 
 const STATUS_OPTIONS = ['', 'pending', 'processing', 'successful', 'failed', 'reversed'];
 const DIRECTION_OPTIONS = ['', 'incoming', 'outgoing'];
@@ -54,6 +55,29 @@ const TransactionsPage = () => {
     const cleared = { status: '', direction: '', search: '', startDate: '', endDate: '' };
     setFilters(cleared);
     fetchTransactions(1, cleared);
+  };
+
+  const handleReceipt = async (reference) => {
+    try {
+      const response = await api.get(
+        `/transactions/${reference}/receipt`,
+        {
+          responseType: 'blob',
+        }
+      );
+
+      const file = new Blob(
+        [response.data],
+        { type: 'application/pdf' }
+      );
+
+      const url = window.URL.createObjectURL(file);
+
+      window.open(url, '_blank');
+    } catch (error) {
+      console.error(error);
+      toast.error('Unable to generate receipt.');
+    }
   };
 
   return (
@@ -160,14 +184,12 @@ const TransactionsPage = () => {
                       <td><StatusBadge status={tx.status} /></td>
                       <td className="text-sm text-muted">{formatDateTime(tx.createdAt)}</td>
                       <td>
-                        <a
-                          href={transactionService.getReceiptUrl(tx.reference)}
-                          target="_blank"
-                          rel="noreferrer"
+                        <button
                           className="btn btn-sm btn-secondary"
+                          onClick={() => handleReceipt(tx.reference)}
                         >
                           PDF
-                        </a>
+                        </button>
                       </td>
                     </tr>
                   );
