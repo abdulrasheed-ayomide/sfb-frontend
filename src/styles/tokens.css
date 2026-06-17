@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Spring Financial Bank — Design Tokens
+   A professional, corporate banking design system.
+   ========================================================================== */
+
+:root {
+  /* --- Color: Brand --- */
+  --sfb-navy: #0b2545;
+  --sfb-navy-light: #133a6b;
+  --sfb-blue: #1768ac;
+  --sfb-blue-light: #e8f1fa;
+
+  /* --- Color: Neutrals --- */
+  --sfb-bg: #f5f7fa;
+  --sfb-surface: #ffffff;
+  --sfb-border: #e3e8ee;
+  --sfb-border-strong: #cbd4e1;
+  --sfb-ink: #1a1f36;
+  --sfb-muted: #5b6779;
+  --sfb-muted-light: #8a94a6;
+
+  /* --- Color: Semantic --- */
+  --sfb-success: #1a7f37;
+  --sfb-success-bg: #e7f6ec;
+  --sfb-danger: #cf222e;
+  --sfb-danger-bg: #fdedee;
+  --sfb-warning: #b08900;
+  --sfb-warning-bg: #fdf6e3;
+  --sfb-info: #1768ac;
+  --sfb-info-bg: #e8f1fa;
+
+  /* --- Color: Dark mode overrides applied via [data-theme="dark"] --- */
+
+  /* --- Typography --- */
+  --font-display: 'Source Serif 4', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: 1.75rem;
+  --fs-2xl: 2.25rem;
+  --fs-3xl: 3rem;
+
+  /* --- Spacing scale --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+  --space-12: 6rem;
+
+  /* --- Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  /* --- Shadow --- */
+  --shadow-sm: 0 1px 2px rgba(11, 37, 69, 0.06);
+  --shadow-md: 0 4px 16px rgba(11, 37, 69, 0.08);
+  --shadow-lg: 0 12px 32px rgba(11, 37, 69, 0.12);
+
+  /* --- Transitions --- */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+
+  /* --- Layout --- */
+  --container-max: 1180px;
+  --header-height: 72px;
+  --sidebar-width: 264px;
+}
+
+/* ==========================================================================
+   Dark Mode
+   Applied via data-theme="dark" on <html>. Inverts surfaces while keeping
+   brand navy/blue legible against dark backgrounds.
+   ========================================================================== */
+[data-theme='dark'] {
+  --sfb-bg: #0d1320;
+  --sfb-surface: #161d2e;
+  --sfb-border: #2a3447;
+  --sfb-border-strong: #3a4660;
+  --sfb-ink: #eef1f6;
+  --sfb-muted: #a3acc2;
+  --sfb-muted-light: #76819c;
+
+  --sfb-navy: #143257;
+  --sfb-navy-light: #1c4376;
+  --sfb-blue: #4a9bdc;
+  --sfb-blue-light: #14253b;
+
+  --sfb-success-bg: #102b1a;
+  --sfb-danger-bg: #2b1416;
+  --sfb-warning-bg: #2b2310;
+  --sfb-info-bg: #14253b;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
