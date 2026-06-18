@@ -15,6 +15,8 @@ export const adminService = {
   getUserDetails: (id) => adminApi.get(`/admin/users/${id}`),
   updateUserStatus: (id, payload) => adminApi.patch(`/admin/users/${id}/status`, payload),
   updateKycStatus: (id, payload) => adminApi.patch(`/admin/users/${id}/kyc`, payload),
+  deleteUser: (id) => adminApi.delete(`/admin/users/${id}`),
+  deleteTransaction: (id) => adminApi.delete(`/admin/transactions/${id}`),
 
   // Transactions
   listTransactions: (params) => adminApi.get('/admin/transactions', { params }),

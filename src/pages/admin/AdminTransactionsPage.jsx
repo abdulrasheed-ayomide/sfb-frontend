@@ -57,6 +57,24 @@ const AdminTransactionsPage = () => {
     fetchTransactions(1, cleared);
   };
 
+  const handleDeleteTransaction = async (id) => {
+    const confirmed = window.confirm(
+      'Delete this transaction?'
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await adminService.deleteTransaction(id);
+
+      toast.success('Transaction deleted');
+
+      fetchTransactions();
+    } catch (error) {
+      toast.error('Could not delete transaction');
+    }
+  };
+
   return (
     <div className="flex-col gap-6">
       <div className="card">
@@ -128,7 +146,18 @@ const AdminTransactionsPage = () => {
                     <td className="mono">{formatCurrency(tx.amount, tx.currency)}</td>
                     <td><StatusBadge status={tx.status} /></td>
                     <td className="text-sm text-muted">{formatDateTime(tx.createdAt)}</td>
-                    <td><Link to={`/admin/transactions/${tx._id}`} className="btn btn-sm btn-secondary">View</Link></td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Link  to={`/admin/transactions/${tx._id}`}  className="btn btn-sm btn-secondary" >
+                          View
+                        </Link>
+
+                        <button className="btn btn-sm btn-danger"
+                          onClick={() => handleDeleteTransaction(tx._id)}
+                        > Delete </button>
+                        
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>

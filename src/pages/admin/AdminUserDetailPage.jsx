@@ -70,6 +70,26 @@ const AdminUserDetailPage = () => {
     }
   };
 
+  const handleDeleteUser = async () => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete ${user.fullName}?`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await adminService.deleteUser(user._id);
+
+      toast.success('User deleted successfully');
+
+      window.location.href = '/admin/users';
+    } catch (error) {
+      toast.error(
+        getErrorMessage(error, 'Could not delete user.')
+      );
+    }
+  };
+
   if (loading) return <PageLoader label="Loading customer..." />;
   if (!user) return null;
 
@@ -78,6 +98,12 @@ const AdminUserDetailPage = () => {
       <Link to="/admin/users" className="text-sm">&larr; Back to customers</Link>
 
       <div className="card">
+        <div className="mb-4">
+          <button className="btn btn-danger"
+            onClick={handleDeleteUser}
+          > Delete User </button>
+
+        </div>
         <div className="flex items-center gap-4 mb-4 flex-wrap">
           <span className="avatar" style={{ width: '56px', height: '56px', fontSize: 'var(--fs-lg)' }}>
             {user.profilePhoto ? <img src={user.profilePhoto} alt="" /> : getInitials(user.fullName)}
