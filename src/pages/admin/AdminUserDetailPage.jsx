@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { adminService } from '../../services/adminService';
 import { getErrorMessage } from '../../services/api';
 import { useToast } from '../../context/ToastContext';
@@ -20,6 +20,8 @@ const AdminUserDetailPage = () => {
   const [pendingKyc, setPendingKyc] = useState(null);
   const [reason, setReason] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const navigate = useNavigate();
   const toast = useToast();
 
   const fetchDetails = async () => {
@@ -71,22 +73,22 @@ const AdminUserDetailPage = () => {
   };
 
   const handleDeleteUser = async () => {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete ${user.fullName}?`
-    );
-
-    if (!confirmed) return;
-
     try {
+      setActionLoading(true);
+
       await adminService.deleteUser(user._id);
 
       toast.success('User deleted successfully');
 
-      window.location.href = '/admin/users';
+      navigate('/admin/users', { replace: true });
+      window.location.reload();
     } catch (error) {
       toast.error(
         getErrorMessage(error, 'Could not delete user.')
       );
+    } finally {
+      setActionLoading(false);
+      setShowDeleteModal(false);
     }
   };
 
@@ -99,9 +101,9 @@ const AdminUserDetailPage = () => {
 
       <div className="card">
         <div className="mb-4">
-          <button className="btn btn-danger"
-            onClick={handleDeleteUser}
-          > Delete User </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => setShowDeleteModal(true)} > Delete User</button>
 
         </div>
         <div className="flex items-center gap-4 mb-4 flex-wrap">
@@ -246,6 +248,21 @@ const AdminUserDetailPage = () => {
             <label className="form-label" htmlFor="kyc-reason">Reason (optional)</label>
             <textarea id="kyc-reason" className="form-textarea" value={reason} onChange={(e) => setReason(e.target.value)} rows={3} />
           </div>
+        </ConfirmModal>
+      )}
+      {/* --- Confirm delete modal --- */}
+      {showDeleteModal && (
+        <ConfirmModal
+          title="Delete Customer?"
+          confirmLabel="Delete"
+          confirmVariant="danger"
+          onConfirm={handleDeleteUser}
+          onCancel={() => setShowDeleteModal(false)}
+          loading={actionLoading}
+        >
+          <p>
+            This action cannot be undone.
+          </p>
         </ConfirmModal>
       )}
     </div>
