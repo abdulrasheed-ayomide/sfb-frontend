@@ -25,7 +25,21 @@ const LoginPage = () => {
       const redirectTo = location.state?.from?.pathname || '/dashboard';
       navigate(redirectTo, { replace: true });
     } catch (error) {
-      toast.error(getErrorMessage(error, 'Login failed. Please check your credentials.'));
+      if (
+        error.response?.data?.error?.code === "EMAIL_NOT_VERIFIED"
+      ) {
+        navigate("/verify-otp", {
+          state: { email: form.email },
+        });
+        return;
+      }
+
+      toast.error(
+        getErrorMessage(
+          error,
+          "Login failed. Please check your credentials."
+        )
+      );
     } finally {
       setLoading(false);
     }
